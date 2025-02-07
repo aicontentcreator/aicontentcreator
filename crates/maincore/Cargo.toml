@@ -8,3 +8,4 @@ tokio = { version = "1.0", features = ["full"] }
 thiserror = "1.0"
 utility = { path = "../utility" }
 maintx = { path = "../maintx" }
+wallet = { path = "../wallet" }

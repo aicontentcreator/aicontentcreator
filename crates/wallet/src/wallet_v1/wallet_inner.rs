@@ -56,7 +56,7 @@ pub struct WalletInner {
     hardened:bool,
     master_extended_secret_key:ExtendedSecretKey,
     vks: Vec<EcdsaKeySet>,
-    last_known_height: usize,
+    last_known_height: u32,
     vresource: Vec<Resource>,
 }
 
@@ -76,11 +76,11 @@ impl WalletInner {
         self.version
     }
 
-    pub fn get_last_known_height(&self) -> usize {
+    pub fn get_last_known_height(&self) -> u32 {
         self.last_known_height
     }
 
-    pub fn set_last_known_height(&mut self, height: usize) {
+    pub fn set_last_known_height(&mut self, height: u32) {
         self.last_known_height = height;
     }
 
@@ -233,11 +233,11 @@ impl WalletInner {
     }
     */
 }
-pub fn new_hardened_walletinner(wallet_seed: String) -> Result<WalletInner, WalletInnerError> {
+pub fn new_hardened_wallet_inner(wallet_seed: String) -> Result<WalletInner, WalletInnerError> {
     let tmp_master_extended_secret_key = derive_master_extended_secret_key(&wallet_seed)?;
     println!("derive_master_extended_secret_key: {:?}", tmp_master_extended_secret_key);
 
-    let mut new_walletinner = WalletInner {
+    let mut new_wallet_inner = WalletInner {
         version: 1,
         hardened:true,
         master_extended_secret_key: tmp_master_extended_secret_key.clone(),
@@ -254,12 +254,12 @@ pub fn new_hardened_walletinner(wallet_seed: String) -> Result<WalletInner, Wall
         let initial_ks_result = derive_child_key_set(&tmp_master_extended_secret_key, HARDENED_OFFSET+count, true);
         match initial_ks_result {
             Ok(initial_ks) => {
-                new_walletinner.vks.push(initial_ks);
+                new_wallet_inner.vks.push(initial_ks);
                 for _ in 0..3 {
-                    new_walletinner.generate_key_set()?;
+                    new_wallet_inner.generate_key_set()?;
                 }
             
-                return Ok(new_walletinner)
+                return Ok(new_wallet_inner)
             },
             Err(error) => println!("Error generate_key_set: {}", error),
         }
@@ -273,13 +273,13 @@ pub fn new_hardened_walletinner(wallet_seed: String) -> Result<WalletInner, Wall
 
 
     //let initial_ks = generate_key_set(&master_extended_secret_key, HARDENED_OFFSET, true)?;
-    //new_walletinner.vks.push(initial_ks);
+    //new_wallet_inner.vks.push(initial_ks);
 
 
 }
 /*
-pub fn new_walletinner(wallet_seed: String) -> Result<WalletInner, WalletInnerError> {
-    let mut new_walletinner = WalletInner::new();
+pub fn new_wallet_inner(wallet_seed: String) -> Result<WalletInner, WalletInnerError> {
+    let mut new_wallet_inner = WalletInner::new();
 
     let mut tmphash = Hash::compute_hash(wallet_seed.as_bytes());
     let stretching_factor: u64 = 1000;
@@ -290,12 +290,12 @@ pub fn new_walletinner(wallet_seed: String) -> Result<WalletInner, WalletInnerEr
     }
 
     let initial_ks = generate_keypair(tmphash.as_bytes()).map_err(|e| WalletInnerError::EcdsaKeySetError(e.to_string()))?;
-    new_walletinner.vks.push(initial_ks);
+    new_wallet_inner.vks.push(initial_ks);
 
     for _ in 0..3 {
-        new_walletinner.generate_keypair()?;
+        new_wallet_inner.generate_keypair()?;
     }
 
-    Ok(new_walletinner)
+    Ok(new_wallet_inner)
 }
 */

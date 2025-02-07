@@ -13,6 +13,8 @@ use utility::buffer::buffer_reader::BufferReaderError;
 use utility::hash::bigint;
 use std::cmp::Ordering;
 
+use utility::system::random;
+
 #[derive(Debug, Error)]
 pub enum MainheaderError {
     //#[error("Failed to read transaction data: {0}")]
@@ -95,8 +97,8 @@ impl Mainheader {
     //
     pub fn check_target(&self) -> bool {
         // compare hash with target
-        let bitsbigint=bigint::bigint_from_compact(self.bits);
-        let hashbigint=bigint::bigint_from_hash(&self.hash.clone());
+        let bitsbigint=bigint::biguint_from_compact(self.bits);
+        let hashbigint=bigint::biguint_from_hash(&self.hash.clone());
         println!("Mainheader check_target bigint      {:?}",bitsbigint);
         println!("Mainheader check_target hash bigint {:?}",hashbigint);
         // Compare a and b
@@ -191,17 +193,18 @@ pub fn mine_mainheader_with_cpu(version: u32,prev_hash: Hash,root_hash: Hash,tim
     
     let mut nonce:u32=1;
  
-    for num in 1..=42949000 {//4294967295//TODO use random number generator//TODO use search_iterations_count
+    for num in 1..=429490 {//max (too high) 4294967295//TODO optimize//TODO use search_iterations_count
         //println!("Current number: {}", num);
-        nonce+=1;
+        //nonce+=1;
+        nonce=random::generate_random_number(0, 4294967295).unwrap() as u32;
         let mut newbw=bw.clone();
         newbw.put_u32(nonce);
         let content = newbw.get_bytes();
         let tmphash=Hash::compute_hash(content.as_slice());
         
         // compare hash with target
-        let bitsbigint=bigint::bigint_from_compact(bits);
-        let hashbigint=bigint::bigint_from_hash(&tmphash.clone());
+        let bitsbigint=bigint::biguint_from_compact(bits.clone());
+        let hashbigint=bigint::biguint_from_hash(&tmphash.clone());
         //println!("genesis_block bigint      {:?}",bitsbigint);
         //println!("genesis_block hash bigint {:?}",hashbigint);
         // Compare a and b

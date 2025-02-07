@@ -59,7 +59,7 @@ impl Mainblock {
             transactions,
         }
     }
-    //
+    /*
     pub fn check_hash(&self) -> bool {
         self.header.check_hash()
     }
@@ -76,7 +76,7 @@ impl Mainblock {
         //
         //return true
         //
-    }
+    }*/
     //
     pub fn get_hash(&self) -> Hash {
         self.header.get_hash()

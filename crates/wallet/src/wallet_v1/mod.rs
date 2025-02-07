@@ -3,3 +3,7 @@ pub mod seed_generation;
 pub mod resource_info;
 pub mod resource;
 pub mod wallet_inner;
+pub mod wallet_actor;
+pub mod wallet_proxy;
+pub mod wallet_command;
+pub mod wallet;
