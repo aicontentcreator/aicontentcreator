@@ -5,7 +5,7 @@ pub async fn check_confirmed_mainblocks(mut tmp_mci:MaincoreInner) -> bool {
 
 
 
-    let maincoreinner_blocks_count=tmp_mci.get_confirmed_mainblocks_last_index();
+    let maincoreinner_blocks_count=tmp_mci.get_confirmed_mainblocks_last_height();
     println!("*********maincoreinner blocks count {}",maincoreinner_blocks_count);
     ///////////////////////////////////////////////////
     

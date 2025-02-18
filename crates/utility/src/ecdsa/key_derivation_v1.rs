@@ -8,7 +8,7 @@ use zeroize::Zeroize;
 use thiserror::Error;
 
 pub const HARDENED_OFFSET: u32 = 0x80000000;
-const PBKDF2_ITERATIONS: u32 = 2000;//310_000;
+const PBKDF2_ITERATIONS: u32 = 2000;//310_000;//TOFINALIZE
 const SALT: &[u8] = b"crypto_wallet_salt";
 
 /// Custom error type for key derivation

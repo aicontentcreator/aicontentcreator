@@ -1,6 +1,7 @@
 pub mod mainheader;
 pub mod mainblock;
 pub mod maincore_inner;
+pub mod mainstate;
 /*
 pub fn add(left: u64, right: u64) -> u64 {
     left + right

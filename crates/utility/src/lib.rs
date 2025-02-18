@@ -3,6 +3,7 @@ pub mod hash;
 pub mod ecdsa;
 pub mod buffer;
 pub mod storage;
+pub mod statedb;
 
 //pub mod ecdsa;
 //pub mod statedb;

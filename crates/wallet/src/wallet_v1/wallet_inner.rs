@@ -170,6 +170,9 @@ impl WalletInner {
 
         return Err(WalletInnerError::GenerateKeySetFailedAfterTooManyAttempt);
     }
+    pub fn set_resource_as_unavailable(&mut self,index:usize){
+        self.vresource[index].available=false;
+    }
     pub fn update_resources(&mut self, tmpmaintx: Maintx) -> Result<(), WalletInnerError> {
         let addresses = self.get_addresses();
 
@@ -232,6 +235,26 @@ impl WalletInner {
         Ok(())
     }
     */
+    pub fn get_available_unspent_resources(&self,min_total_value:u64)-> (Vec<Resource>,Vec<usize>,u64) {
+        let mut total_value=0;
+        let mut tmp_vresource:Vec<Resource>=Vec::new();
+        let mut tmp_vresource_indexes:Vec<usize>=Vec::new();
+        if min_total_value==0 {
+            return (tmp_vresource,tmp_vresource_indexes,0)
+        }
+        for i in 0..self.vresource.len() {
+            if self.vresource[i].is_unspent_resource() && self.vresource[i].available{
+                total_value+=self.vresource[i].value;
+                tmp_vresource.push(self.vresource[i].clone());
+                tmp_vresource_indexes.push(i)
+            }
+            if total_value >= min_total_value {
+                println!("get_available_unspent_resources tmp_vresource {:?} tmp_vresource_indexes {:?} total_value {}",tmp_vresource,tmp_vresource_indexes,total_value);
+                return (tmp_vresource,tmp_vresource_indexes,total_value)
+            }
+        }
+        (Vec::new(),Vec::new(),0)
+    }
 }
 pub fn new_hardened_wallet_inner(wallet_seed: String) -> Result<WalletInner, WalletInnerError> {
     let tmp_master_extended_secret_key = derive_master_extended_secret_key(&wallet_seed)?;

@@ -1,0 +1,230 @@
+
+use utility::hash::hash::Hash;
+use maintx::maintx::maintx::Maintx;
+pub struct MaintxsPool {
+    maintxslist:MaintxsList,
+}
+impl MaintxsPool {
+    pub fn new()->Self {
+        MaintxsPool  {
+            maintxslist:MaintxsList::new(),
+        }
+    }
+    pub fn insert_new_maintx(&mut self,newtx:Maintx,priority:f64){
+        self.maintxslist.insert(newtx,priority);//TODO compute priority
+    }
+    pub fn get_prioritized_maintxs(& self) -> Vec<Maintx> {
+        let mut tmp_prioritized_transactions=Vec::new();
+        let mut total_size=0;
+        let mut index=0;
+        /////////////////////
+        while total_size<500_000 {
+            if let Some(tmp_maintx) = self.maintxslist.get_prioritized_maintx_with_index(index) {
+                total_size+=tmp_maintx.get_serialization_size();
+                tmp_prioritized_transactions.push(tmp_maintx);
+                index+=1;
+                println!("$$$$$$$$$$$$$$$$$$$$$$$$$$");
+            } else {
+                println!("end index{}",index);
+                return tmp_prioritized_transactions
+                
+            }
+            index+=1;
+        }
+        /////////////////////
+        return tmp_prioritized_transactions
+        
+    }
+    pub fn set_tx_to_mainblock_height(& mut self,tmp_hash:Hash,tmp_height: usize) {
+        self.maintxslist.set_tx_to_mainblock_height(tmp_hash,tmp_height);
+    }
+    pub fn reset_tx_with_mainblock_height(& mut self,tmp_mainblock_height: usize) {
+        self.maintxslist.reset_tx_with_mainblock_height(tmp_mainblock_height)
+    }
+    pub fn remove(&mut self, tmp_hash: Hash) {
+        self.maintxslist.remove(tmp_hash)
+    }
+}
+
+
+// Define a struct for the maintxs_list_item stored in each list item
+struct MaintxsListItem {//txnodeslinkedlist
+    maintx: Maintx,
+    hash:Hash,
+    mainblock_height:usize,
+}
+
+
+// Define a MaintxsListNode struct to represent each element in the list
+struct MaintxsListNode {
+    maintxs_list_item: MaintxsListItem,
+    priority: f64,
+    next: Option<Box<MaintxsListNode>>,
+}
+
+// Define the SortedList struct
+pub struct MaintxsList {
+    head: Option<Box<MaintxsListNode>>,
+}
+
+impl MaintxsList {
+    // Create a new empty sorted list
+    pub fn new() -> Self {
+        MaintxsList { head: None }
+    }
+
+    // Add an element to the sorted list
+    pub fn insert(&mut self, tmp_maintx: Maintx, priority: f64) {
+        let tmp_hash=tmp_maintx.compute_hash();
+        let mut new_node = Box::new(MaintxsListNode {
+            maintxs_list_item: MaintxsListItem { maintx: tmp_maintx, hash: tmp_hash, mainblock_height:0 },
+            priority: priority,
+            next: None,
+        });
+
+        // If the list is empty or the new node has higher priority than the head
+        if self.head.is_none() || priority < self.head.as_ref().unwrap().priority {
+            new_node.next = self.head.take();
+            self.head = Some(new_node);
+            return;
+        }
+
+        let mut prev_next = &mut self.head;
+
+        // Find the appropriate position for insertion
+        while let Some(node) = prev_next {
+            if let Some(next_node) = &node.next {
+                if priority < next_node.priority {
+                    new_node.next = node.next.take();
+                    node.next = Some(new_node);
+                    return;
+                }
+            } else {
+                node.next = Some(new_node);
+                return;
+            }
+            prev_next = &mut node.next;
+        }
+    }
+    //
+
+    //
+    pub fn get_prioritized_maintx_with_index(& self,index: usize) -> Option<Maintx> {
+        let mut current = &self.head;
+        let mut count = 0;
+        // Traverse the list to find the transaction with index
+        while let Some(node) = current {
+            //println!("get_prioritized_maintx_with_index node maintxs_list_item.hash {:?}",node.maintxs_list_item.hash);
+            if count == index {
+                if node.maintxs_list_item.mainblock_height!=0 {
+                    return None;
+                }
+                // Found the "ith" transaction, return its maintxs_list_item
+                return Some(node.maintxs_list_item.maintx.clone());
+            }
+            count += 1;
+            current = &node.next;
+        }
+        None
+    }
+    //
+    pub fn reset_tx_with_mainblock_height(& mut self,tmp_mainblock_height: usize) {
+        // Handle the head node separately
+        if let Some(ref mut head_node) = self.head {
+            if head_node.maintxs_list_item.mainblock_height==tmp_mainblock_height {
+                //self.head = head_node.next.take();
+                head_node.maintxs_list_item.mainblock_height=0;
+                return;
+            }
+        }
+
+        // Traverse the list to find the element to remove
+        let mut current = &mut self.head;
+        while let Some(ref mut node) = *current {
+            if let Some(next_node) = &mut node.next {
+                if next_node.maintxs_list_item.mainblock_height==tmp_mainblock_height {
+                    //node.next = next_node.next.take();
+                    next_node.maintxs_list_item.mainblock_height=0;
+                    return;
+                }
+            }
+            current = &mut node.next;
+        }
+    }
+    //  
+    pub fn set_tx_to_mainblock_height(& mut self,tmp_hash:Hash,tmp_height: usize) {
+        // Handle the head node separately
+        if let Some(ref mut head_node) = self.head {
+            if head_node.maintxs_list_item.hash==tmp_hash {
+                //self.head = head_node.next.take();
+                head_node.maintxs_list_item.mainblock_height=tmp_height;
+                return;
+            }
+        }
+
+        // Traverse the list to find the element to remove
+        let mut current = &mut self.head;
+        while let Some(ref mut node) = *current {
+            if let Some(next_node) = &mut node.next {
+                if next_node.maintxs_list_item.hash==tmp_hash {
+                    //node.next = next_node.next.take();
+                    next_node.maintxs_list_item.mainblock_height=tmp_height;
+                    return;
+                }
+            }
+            current = &mut node.next;
+        }
+    }
+    // Remove an element from the sorted list based on its hash
+    pub fn remove(&mut self, tmp_hash: Hash) {
+        // Handle the head node separately
+        if let Some(ref mut head_node) = self.head {
+            if head_node.maintxs_list_item.hash==tmp_hash {
+                self.head = head_node.next.take();
+                return;
+            }
+        }
+
+        // Traverse the list to find the element to remove
+        let mut current = &mut self.head;
+        while let Some(ref mut node) = *current {
+            if let Some(next_node) = &mut node.next {
+                if next_node.maintxs_list_item.hash==tmp_hash {
+                    node.next = next_node.next.take();
+                    return;
+                }
+            }
+            current = &mut node.next;
+        }
+    }
+    /////////////
+    pub fn contains(&self, tmp_hash: Hash) -> bool {
+        let mut current = &self.head;
+
+        // Traverse the list to find if the value exists
+        while let Some(node) = current {
+            if node.maintxs_list_item.hash==tmp_hash {
+                return true; // Value found
+            }
+            current = &node.next;
+        }
+
+        false // Value not found
+    }
+    /////////////
+    // Check if the sorted list is empty
+    pub fn is_empty(&self) -> bool {
+        self.head.is_none()
+    }
+
+    // Print the sorted list
+    pub fn print(&self) {
+        let mut current = &self.head;
+        print!("Sorted List: ");
+        while let Some(ref node) = *current {
+            print!("({:?}, {}) ", node.maintxs_list_item.maintx, node.priority);
+            current = &node.next;
+        }
+        println!();
+    }
+}

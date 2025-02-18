@@ -7,3 +7,4 @@ pub mod wallet_actor;
 pub mod wallet_proxy;
 pub mod wallet_command;
 pub mod wallet;
+pub mod maintx_setup;

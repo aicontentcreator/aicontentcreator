@@ -161,7 +161,7 @@ pub fn new_mainblockrewardtxin(height: u32) -> MaintxIn {
     })
 }
 
-pub fn new_maintx_in_ecdsa(hash: Hash, index: u32, publickey: Vec<u8>) -> MaintxIn {
+pub fn new_ecdsa_maintx_in(hash: Hash, index: u32, publickey: Vec<u8>) -> MaintxIn {
     MaintxIn::MaintxInEcdsaVariant(MaintxInEcdsa {
         hash,
         index,
