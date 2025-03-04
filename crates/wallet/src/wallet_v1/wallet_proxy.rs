@@ -5,7 +5,7 @@ use utility::hash::hash::Hash;
 use crate::wallet_v1::wallet_inner::WalletInner;
 use std::sync::{Arc, Mutex};
 // Define the proxy struct for interacting with the actor
-#[derive(Clone)]
+#[derive(Debug,Clone)]
 pub struct WalletProxy {
     pub sender: mpsc::Sender<WalletCommand>,
 }
@@ -26,6 +26,11 @@ impl WalletProxy {
     pub async fn get_balance(&self) -> Result<u64, tokio::sync::mpsc::error::SendError<WalletCommand>> {
         let (result_sender, result_receiver) = oneshot::channel();
         self.sender.send(WalletCommand::GetBalance { result_sender }).await?;
+        Ok(result_receiver.await.unwrap_or_else(|_| panic!("Failed to receive result from actor")))
+    }
+    pub async fn get_operational_situation(&self) -> Result<String, tokio::sync::mpsc::error::SendError<WalletCommand>> {
+        let (result_sender, result_receiver) = oneshot::channel();
+        self.sender.send(WalletCommand::GetOperationalSituation { result_sender }).await?;
         Ok(result_receiver.await.unwrap_or_else(|_| panic!("Failed to receive result from actor")))
     }
     // Send an addition command to the actor and await the result

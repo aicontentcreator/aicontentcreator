@@ -6,6 +6,7 @@ use utility::hash::hash::Hash;
 
 
 // Define the types of commands that can be sent to the actor
+
 pub enum WalletCommand {
     GetAddresses {
         result_sender: oneshot::Sender<Vec<Hash>>,       
@@ -16,6 +17,9 @@ pub enum WalletCommand {
     },
     GetBalance {
         result_sender: oneshot::Sender<u64>,       
+    },
+    GetOperationalSituation {
+        result_sender: oneshot::Sender<String>,       
     },
     ///////////////////////
     Add {

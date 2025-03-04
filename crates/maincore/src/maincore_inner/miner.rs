@@ -97,18 +97,7 @@ impl Miner {
         println!("prev_mainheader {:?}",prev_mainheader);
 
         let tmprewardvalue:u64;
-        tmprewardvalue=1000;
-        //TODONOW reintroduce it
-        /*
-        if  height<10_000_000 {
-            tmprewardvalue=10_000_000_000_000-(1000_000*(height as u64));
-        } else {
-            tmprewardvalue=0;
-        }
-        */
-
-        
-
+        tmprewardvalue=mainblock_reward(height);//1000;
         
         let newtx = new_reward_transaction(height as u32,tmprewardvalue,total_fees,newaddress);
 

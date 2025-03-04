@@ -23,6 +23,8 @@ use maintx::maintx_in::maintx_in::MaintxInError;
 
 use crate::wallet_v1::resource::Resource;
 use crate::wallet_v1::resource::new_unspent_resource;
+
+const INITIAL_CHILD_KEYS_COUNT: u32 = 1000;////TOFINALIZE
 #[derive(Debug, Error)]
 pub enum WalletInnerError {
     #[error("Key pair vector is empty")]
@@ -50,9 +52,15 @@ pub enum WalletInnerError {
     MaintxInError(#[from] MaintxInError),
 }
 
+const WALLET_LOADING_SITUATION_WALLET_NOT_FOUND: u32 =0;
+const WALLET_LOADING_SITUATION_WALLET_LOADING: u32 =1;
+const WALLET_LOADING_SITUATION_WALLET_LOADED: u32 =2;
+
+
 #[derive(Debug, Clone)]
 pub struct WalletInner {
     version: u64,
+    loading_situation:u32,
     hardened:bool,
     master_extended_secret_key:ExtendedSecretKey,
     vks: Vec<EcdsaKeySet>,
@@ -155,7 +163,7 @@ impl WalletInner {
 
         let last_derivation_index=self.get_derivation_index(self.vks.len()-1)?;//
         
-        for count in 1..=5000 { 
+        for count in 1..=INITIAL_CHILD_KEYS_COUNT { 
 
             let new_ks_result = derive_child_key_set(&self.master_extended_secret_key, last_derivation_index+count, true);
             match new_ks_result {
@@ -256,12 +264,14 @@ impl WalletInner {
         (Vec::new(),Vec::new(),0)
     }
 }
-pub fn new_hardened_wallet_inner(wallet_seed: String) -> Result<WalletInner, WalletInnerError> {
+pub fn new_hardened_wallet_inner_with_seed(wallet_seed: String) -> Result<WalletInner, WalletInnerError> {
+    
     let tmp_master_extended_secret_key = derive_master_extended_secret_key(&wallet_seed)?;
     println!("derive_master_extended_secret_key: {:?}", tmp_master_extended_secret_key);
 
     let mut new_wallet_inner = WalletInner {
         version: 1,
+        loading_situation:WALLET_LOADING_SITUATION_WALLET_LOADING,
         hardened:true,
         master_extended_secret_key: tmp_master_extended_secret_key.clone(),
         vks: Vec::new(),
@@ -272,7 +282,7 @@ pub fn new_hardened_wallet_inner(wallet_seed: String) -> Result<WalletInner, Wal
 
 
         
-    for count in 1..=5000 { 
+    for count in 1..=5000 {//TOFINALIZE
 
         let initial_ks_result = derive_child_key_set(&tmp_master_extended_secret_key, HARDENED_OFFSET+count, true);
         match initial_ks_result {
@@ -288,7 +298,7 @@ pub fn new_hardened_wallet_inner(wallet_seed: String) -> Result<WalletInner, Wal
         }
         
     }
-
+    new_wallet_inner.loading_situation=WALLET_LOADING_SITUATION_WALLET_LOADED;
     return Err(WalletInnerError::GenerateKeySetFailedAfterTooManyAttempt);
 
 

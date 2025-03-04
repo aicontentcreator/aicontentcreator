@@ -1,13 +1,13 @@
-// src/pages/Chats.tsx
+// src/pages/Settings.tsx
 import React from 'react';
 
-const Chats: React.FC = () => {
+const SettingsPage: React.FC = () => {
   return (
     <div className="container">
-      <h1 className="my-4">Chats</h1>
+      <h1 className="my-4">Settings</h1>
       <p>Manage your application settings here.</p>
     </div>
   );
 };
 
-export default Chats;
+export default SettingsPage;

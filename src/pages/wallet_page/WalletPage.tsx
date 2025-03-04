@@ -1,13 +1,13 @@
-// src/pages/Settings.tsx
+// src/pages/Wallet.tsx
 import React from 'react';
 
-const Settings: React.FC = () => {
+const WalletPage: React.FC = () => {
   return (
     <div className="container">
-      <h1 className="my-4">Settings</h1>
+      <h1 className="my-4">Wallet</h1>
       <p>Manage your application settings here.</p>
     </div>
   );
 };
 
-export default Settings;
+export default WalletPage;

@@ -1,83 +1,64 @@
-// Prevents additional console window on Windows in release, DO NOT REMOVE!!
-#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+use tauri::{Manager, AppHandle};
+use tauri::{command, State};
+use tokio::sync::Mutex;
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-/*
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-*/
-//////////////////
-//////////////////
-/*
-#![cfg_attr(
-    all(not(debug_assertions), target_os = "windows"),
-    windows_subsystem = "windows"
-)]
-*/
-//use tauri::Manager;
-//use tauri::command;
+//use tokio::signal;
+use tokio::sync::{mpsc, oneshot};
+use tokio::time::{self, Duration};
 
-#[tauri::command]
-fn send_message(message: String) -> String {
-    let response = format!("Server received: {}", message);
-    
-    // Send back the response to the frontend
-    response
-}
-//////////////////
-//////////////////
-use tauri::api::path::app_data_dir;
-use std::path::PathBuf;
+//use daemon::daemon::daemon::init_daemon_actor_daemon_proxy;
 
-#[tauri::command]
-fn get_image_path(file_name: String) -> Result<String, String> {
-    let mut path = PathBuf::new();
-    path.push(app_data_dir(&tauri::generate_context!().config()).unwrap()); // Pass the config directly
-    path.push(file_name);
-    
-    println!("PATH OF THE FILE: {:}", path.to_string_lossy().into_owned()); 
-    Ok(path.to_string_lossy().into_owned())
-    /*
-    if path.exists() {
-        Ok(path.to_string_lossy().into_owned())
-    } else {
-        Err("File not found".to_string())
-    }
-    */
-}
-/////////////////
-/////////////////
+use wallet::wallet_v1::wallet_settings::WalletSettings;
+use wallet::wallet_v1::wallet::init_wallet_actor_wallet_proxy_with_seed;
+
+use daemon::daemon::daemon::init_daemon_actor_daemon_proxy;
+use daemon::settings::daemon_settings::DaemonSettings;
+
+use crate::app_state::app_state::AppState;
+
+
+
+mod app_state;
+use crate::app_state::app_state::handle_frontend_request;
+
 
 mod app_data;
 use crate::app_data::app_paths::get_app_data_dir;
-use crate::app_data::app_paths::get_app_cache_dir;
 
-fn main() {
+
+#[tokio::main]
+async fn main() {
     let app_data_path = get_app_data_dir()
     .expect("Failed to access or create app data directory");
 
     println!("App data directory created or exists at: {:?}", app_data_path);
 
+    let default_wallet_settings=WalletSettings::new_default_wallet_settings();
+    let (app_wallet_actor, app_wallet_proxy) = init_wallet_actor_wallet_proxy_with_seed("MySeed".into(), default_wallet_settings).unwrap();
+    tokio::spawn(app_wallet_actor.process());
     
-    let app_cache_path = get_app_cache_dir()
-    .expect("Failed to access or create app cache directory");
+    // Initialize the dmnactor and its dmnproxy
+    //let channelsize=128;
+    //let (dmnactor, dmnproxy) = init_daemon_actor_daemon_proxy("".into(), channelsize).unwrap();
 
-    println!("App cache directory created or exists at: {:?}", app_cache_path);
-
+    let (app_daemon_actor, app_daemon_proxy) = init_daemon_actor_daemon_proxy("".into(),app_wallet_proxy.clone(), DaemonSettings::new_default_daemon_settings()).await.unwrap();
+    
+    // Spawn the dmnactor's processing task
+    tokio::spawn(app_daemon_actor.process());
+    
+    //
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![send_message, get_image_path]) // Add get_image_path here
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
-}
+    .manage(AppState {
+        shared_app_daemon_proxy: Mutex::new(app_daemon_proxy),
+    })
+    .invoke_handler(tauri::generate_handler![handle_frontend_request])
+    .run(tauri::generate_context!())
+    .expect("error while running Tauri application");
 
-/*
-
-fn main() {
+    /*
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![handle_frontend_request])
         .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .expect("error while running Tauri application");
+    */
 }
-*/

@@ -1,26 +1,42 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 import Home from './pages/home/Home';
-import Chats from './pages/chats/Chats';
-import Settings from './pages/settings/Settings';
-// Ensure Tailwind CSS is imported in style.css or a similar main file.
+import WalletPage from './pages/wallet_page/WalletPage';
+import SettingsPage from './pages/settings_page/SettingsPage';
+
+// Navigation Component
+const NavLink: React.FC<{ to: string; children: React.ReactNode }> = ({ to, children }) => {
+  const location = useLocation();
+  const isActive = location.pathname === to;
+
+  return (
+    <Link
+      to={to}
+      className={`px-4 py-2 rounded-lg transition-colors ${
+        isActive ? 'bg-gray-500 text-white' : 'text-white'
+      } hover:bg-yellow-700`}
+    >
+      {children}
+    </Link>
+  );
+};
 
 const App: React.FC = () => {
   return (
     <Router>
       <div className="min-h-screen flex flex-col">
         {/* Navigation */}
-        <nav className="bg-gray-800 text-white rounded-lg shadow-md z-20 relative">
+        <nav className="bg-gray-800 text-white shadow-md z-20 relative">
           <div className="flex justify-center space-x-6 py-4">
-            <ul className="flex space-x-6">
-              <li className="nav-item">
-                <Link className="text-white hover:text-gray-300" to="/">Home</Link>
+            <ul className="flex space-x-24">
+              <li>
+                <NavLink to="/">Home</NavLink>
               </li>
-              <li className="nav-item">
-                <Link className="text-white hover:text-gray-300" to="/chats">Chats</Link>
+              <li>
+                <NavLink to="/wallet_page">Wallet</NavLink>
               </li>
-              <li className="nav-item">
-                <Link className="text-white hover:text-gray-300" to="/settings">Settings</Link>
+              <li>
+                <NavLink to="/settings_page">Settings</NavLink>
               </li>
             </ul>
           </div>
@@ -30,8 +46,8 @@ const App: React.FC = () => {
         <div className="flex-1 overflow-hidden">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/chats" element={<Chats />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/wallet_page" element={<WalletPage />} />
+            <Route path="/settings_page" element={<SettingsPage />} />
           </Routes>
         </div>
       </div>
@@ -40,59 +56,3 @@ const App: React.FC = () => {
 };
 
 export default App;
-
-/*
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import { invoke } from "@tauri-apps/api/tauri";
-import "./App.css";
-
-function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
-
-  async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
-  }
-
-  return (
-    <div className="container">
-      <h1>Welcome to Tauri!</h1>
-
-      <div className="row">
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
-        </a>
-        <a href="https://tauri.app" target="_blank">
-          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-
-      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
-
-      <form
-        className="row"
-        onSubmit={(e) => {
-          e.preventDefault();
-          greet();
-        }}
-      >
-        <input
-          id="greet-input"
-          onChange={(e) => setName(e.currentTarget.value)}
-          placeholder="Enter a name..."
-        />
-        <button type="submit">Greet</button>
-      </form>
-
-      <p>{greetMsg}</p>
-    </div>
-  );
-}
-
-export default App;
-*/

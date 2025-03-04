@@ -150,6 +150,7 @@ impl StorageDirectory{
         let file_path=format!("{}{}",self.category, chunk_height);
         self.load_bytes_from_file(&file_path).await
     }
+    /*
     pub async fn push_file(&mut self, data: &[u8]) -> Result<(),StorageDirectoryError> {
         self.init_storage_files_last_index().await;
         let index=self.get_storage_files_last_index();
@@ -165,6 +166,7 @@ impl StorageDirectory{
         self.save_bytes_to_file(&file_name, data ).await?;
         Ok(())
     }
+    */
     pub async fn load_bytes_from_file_with_index(&self, index: u32) -> Result<Vec<u8>,StorageDirectoryError> {
         let file_name=format!("{}{}",self.category,index);
         let content=self.load_bytes_from_file(&file_name).await?;

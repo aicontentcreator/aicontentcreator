@@ -1,11 +1,12 @@
 
 use tokio::sync::{mpsc, oneshot};
 use crate::wallet_v1::wallet_actor::WalletActor;
-use crate::wallet_v1::wallet_actor::new_wallet_actor;
+
 use crate::wallet_v1::wallet_proxy::WalletProxy;
 use crate::wallet_v1::wallet_actor::WalletActorError;
+use crate::wallet_v1::wallet_settings::WalletSettings;
 use thiserror::Error;
-
+use crate::wallet_v1::wallet_actor::new_wallet_actor_with_seed;
 #[derive(Debug, Error)]
 pub enum WalletError {
     #[error("WalletActorError error: {0}")]
@@ -38,10 +39,10 @@ pub enum WalletError {
 }
 
 // Initialize the actor and its corresponding proxy
-pub fn init_wallet_actor_wallet_proxy(seed: String, size: usize) -> Result<(WalletActor, WalletProxy), WalletError> {//(WalletActor, WalletProxy) {
-    let (sender, receiver) = mpsc::channel(size);
+pub fn init_wallet_actor_wallet_proxy_with_seed(seed: String, tmp_wallet_settings: WalletSettings) -> Result<(WalletActor, WalletProxy), WalletError> {//(WalletActor, WalletProxy) {
+    let (sender, receiver) = mpsc::channel(tmp_wallet_settings.channel_size);
     //let actor = WalletActor { receiver, name: name.clone() };
-    let tmp_result = new_wallet_actor(seed,receiver);
+    let tmp_result = new_wallet_actor_with_seed(seed,receiver);
     match tmp_result {
         Ok(tmp_new_wallet_actor)=> {
             let proxy = WalletProxy { sender };
@@ -52,5 +53,4 @@ pub fn init_wallet_actor_wallet_proxy(seed: String, size: usize) -> Result<(Wall
             return Err(WalletError::WalletActorError(e))
         }
     }
-
 }

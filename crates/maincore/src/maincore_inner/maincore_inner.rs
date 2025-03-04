@@ -119,6 +119,19 @@ impl MaincoreInner{
         })
     }
     pub async fn init(&mut self)-> Result<(),MaincoreInnerError> {
+        //TOFINALIZE
+        /*
+        println!("adding genesis");
+        let tmp_genesis_mainblock=new_genesis_mainblock();//should be adding in constants
+        match self.add_genesis_mainblock(tmp_genesis_mainblock){
+            Ok(_)=> {
+                println!("add genesisblock success");
+            }
+            Err(e)=> {
+                println!("add genesisblock error {:?}",e);
+            }
+        }
+        */
         self.init_storage_directory().await?;
         self.unconfirmed_mainblocks.init()?;
         Ok(())

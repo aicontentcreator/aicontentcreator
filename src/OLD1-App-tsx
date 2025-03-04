@@ -1,0 +1,113 @@
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+import Home from './pages/home/Home';
+import WalletPage from './pages/wallet_page/WalletPage';
+/*
+import NewChat from './pages/newchat/NewChat';
+*/
+
+
+import SettingsPage from './pages/settings_page/SettingsPage';
+// Ensure Tailwind CSS is imported in style.css or a similar main file.
+
+const App: React.FC = () => {
+  return (
+    <Router>
+      <div className="min-h-screen flex flex-col">
+        {/* Navigation */}
+        <nav className="bg-gray-800 text-white rounded-lg shadow-md z-20 relative">
+          <div className="flex justify-center space-x-6 py-4">
+            <ul className="flex space-x-24">
+              <li className="nav-item">
+                <Link className="text-white hover:text-gray-300" to="/">Home</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="text-white hover:text-gray-300" to="/wallet_page">Wallet</Link>
+              </li>
+              {/*
+              <li className="nav-item">
+                <Link className="text-white hover:text-gray-300" to="/newchat">New Chat</Link>
+              </li>
+              */}
+
+              <li className="nav-item">
+                <Link className="text-white hover:text-gray-300" to="/settings_page">Settings</Link>
+              </li>
+            </ul>
+          </div>
+        </nav>
+
+        {/* Main Content */}
+        <div className="flex-1 overflow-hidden">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/wallet_page" element={<WalletPage />} />
+            {/*
+            <Route path="/newchat" element={<NewChat />} />
+            */}
+            
+            <Route path="/settings_page" element={<SettingsPage />} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
+  );
+};
+
+export default App;
+
+/*
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import { invoke } from "@tauri-apps/api/tauri";
+import "./App.css";
+
+function App() {
+  const [greetMsg, setGreetMsg] = useState("");
+  const [name, setName] = useState("");
+
+  async function greet() {
+    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+    setGreetMsg(await invoke("greet", { name }));
+  }
+
+  return (
+    <div className="container">
+      <h1>Welcome to Tauri!</h1>
+
+      <div className="row">
+        <a href="https://vitejs.dev" target="_blank">
+          <img src="/vite.svg" className="logo vite" alt="Vite logo" />
+        </a>
+        <a href="https://tauri.app" target="_blank">
+          <img src="/tauri.svg" className="logo tauri" alt="Tauri logo" />
+        </a>
+        <a href="https://reactjs.org" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+
+      <p>Click on the Tauri, Vite, and React logos to learn more.</p>
+
+      <form
+        className="row"
+        onSubmit={(e) => {
+          e.preventDefault();
+          greet();
+        }}
+      >
+        <input
+          id="greet-input"
+          onChange={(e) => setName(e.currentTarget.value)}
+          placeholder="Enter a name..."
+        />
+        <button type="submit">Greet</button>
+      </form>
+
+      <p>{greetMsg}</p>
+    </div>
+  );
+}
+
+export default App;
+*/
