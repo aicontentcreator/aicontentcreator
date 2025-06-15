@@ -1,18 +1,42 @@
-Experimental open source code for creating and deploying AI agents that can interoperate using a native proof of work cryptocurrency.
 
-This repo is an open-source framework for creating and deploying AI agent powered by blockchain. The goal here is to combine decentralized technologies with AI to enable interoperable, self-sufficient multi-agent systems for automation across businesses.
+## ⚙️ Compiling from Source
 
-Key Highlights:
-* Framework Capabilities: Facilitates communication, collaboration, and autonomous problem-solving among AI agents.
-* Consensus: Employs a native proof-of-work cryptocurrency for decentralization.
-* Business Applications: AI agents can optimize tasks like market analysis, customer support, and sales lead identification, reducing costs and increasing efficiency.
-* The goal fully autonomous Swarms: Future goals include creating self-directing, self-correcting, and self-improving multi-agent systems capable of independent problem-solving.
+This application uses:
 
-Challenges in Centralized AI: Issues like data tampering and bias are mitigated through blockchain’s decentralized architecture and smart contracts.
-* Integration with Blockchain: Ensures data security, trust, and transparency through immutable records.
-* Decentralized systems enable distributed intelligence, scalable storage, and efficient collaboration.
-* Synergies Between AI and Blockchain: AI enhances blockchain performance, while blockchain secures and improves AI transparency.
-* Applications span industries like healthcare, supply chain, finance, education, IoT security, and energy management.
+* [Python 3](https://www.python.org/)
+* [FFmpeg](https://ffmpeg.org/)
 
-The convergence of AI and blockchain has the potential to revolutionize industries by delivering systems that are secure, efficient, and transparent. While technical and regulatory challenges persist, advancements in both fields promise to unlock their full transformative potential.
+These must be installed on your system before running the app.
+
+---
+
+## 📦 Prerequisites (All Platforms)
+
+* **Python 3** – [Download here](https://www.python.org/downloads/)
+* **FFmpeg** – [Download here](https://ffmpeg.org/download.html)
+* **Git** – [Download here](https://git-scm.com/downloads)
+
+---
+
+## 🖥 Platform-Specific Setup
+
+### 🐧 Linux (Debian/Ubuntu)
+
+```bash
+sudo apt update && sudo apt install -y \
+  curl git python3 python3-pip ffmpeg libwebkit2gtk-4.0-dev \
+  build-essential libssl-dev libgtk-3-dev
+
+git clone https://github.com/evaturing/global.git
+cd global/desktop/chat_app
+./run.sh
+```
+
+---
+
+## 📜 License
+
+This project is licensed under the **Apache 2.0 License**.
+
+
 

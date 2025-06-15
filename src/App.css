@@ -1,7 +1,66 @@
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
+/* App.css */
+
+body {
+  margin: 0;
+  font-family: sans-serif;
 }
 
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafb);
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.page-container {
+  padding: 0.5rem;
+}
+
+.navbar {
+  background-color: #2d3748; /* Tailwind's gray-800 */
+  color: white;
+  position: relative;
+  z-index: 20;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-inner {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.nav-list {
+  display: flex;
+  gap: 6rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-link {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  color: white;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.nav-link:hover {
+  background-color: #b7791f; /* Tailwind's yellow-700 */
+}
+
+.nav-link.active {
+  background-color: #6b7280; /* Tailwind's gray-500 */
+  color: white;
+}
+
+.main-content {
+  flex: 1;
+  overflow: hidden;
+}
+
+.chat-img {
+  max-width: 200px;
+  max-height: 200px;
+  border-radius: 8px;
+  margin-top: 0.5rem;
 }
