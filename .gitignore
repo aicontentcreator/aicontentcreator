@@ -42,6 +42,43 @@ desktop/chat_app/ehthumbs.db
 
 ########################
 # ─── Python cache and artifacts ───
+desktop/chat_app/predefined/template/__pycache__/
+desktop/chat_app/predefined/template/**/*.py[cod]
+desktop/chat_app/predefined/template/**/*.so
+desktop/chat_app/predefined/template/**/*.pyd
+
+# ─── Virtual environments inside chat_app/predefined/template ───
+desktop/chat_app/predefined/template/.venv/
+desktop/chat_app/predefined/template/venv/
+desktop/chat_app/predefined/template/env/
+desktop/chat_app/predefined/template/ENV/
+desktop/chat_app/predefined/template/*.env
+
+# ─── Build artifacts ───
+desktop/chat_app/predefined/template/**/*.spec
+desktop/chat_app/predefined/template/dist/
+desktop/chat_app/predefined/template/build/
+
+# ─── macOS metadata ───
+desktop/chat_app/predefined/template/.DS_Store
+
+# ─── Chat data files ───
+desktop/chat_app/predefined/template/Tmp
+
+# ─── Logs and temp files ───
+desktop/chat_app/predefined/template/**/*.log
+desktop/chat_app/predefined/template/**/*.tmp
+
+# ─── IDE/editor config ───
+.vscode/
+.idea/
+
+# ─── OS-generated junk ───
+desktop/chat_app/predefined/video_editing/Thumbs.db
+desktop/chat_app/predefined/video_editing/ehthumbs.db
+
+########################
+# ─── Python cache and artifacts ───
 desktop/chat_app/predefined/video_editing/__pycache__/
 desktop/chat_app/predefined/video_editing/**/*.py[cod]
 desktop/chat_app/predefined/video_editing/**/*.so
