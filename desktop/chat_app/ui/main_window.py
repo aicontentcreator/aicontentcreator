@@ -32,10 +32,10 @@ class MainWindow(QMainWindow):
         nav_bar = QHBoxLayout()
         home_button = QPushButton("Home")
         chat_button = QPushButton("Chat")
-        #test_button = QPushButton("Test")
+        #settings_button = QPushButton("Settings")
         nav_bar.addWidget(home_button)
         nav_bar.addWidget(chat_button)
-        #nav_bar.addWidget(test_button)
+        #nav_bar.addWidget(settings_button)
         self.central_layout.addLayout(nav_bar)
 
         # Pages
@@ -78,7 +78,7 @@ class MainWindow(QMainWindow):
         # Navigation button connections
         home_button.clicked.connect(lambda: self.pages.setCurrentIndex(0))
         chat_button.clicked.connect(lambda: self.pages.setCurrentIndex(1))
-        #test_button.clicked.connect(self.run_subprocess)
+        #settings_button.clicked.connect(lambda: self.pages.setCurrentIndex(2))
 
         self.load_chat_buttons()
 
