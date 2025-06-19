@@ -1,1 +1,1 @@
-CHAT_DIR = "chats"
+CHAT_DIR = "Chats"

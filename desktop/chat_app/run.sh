@@ -23,7 +23,7 @@ fi
 
 # Run the application
 echo "Running chat app..."
-python3 main.py
+python3 main.py "$@"
 
 # Deactivate the virtual environment after the app exits
 deactivate

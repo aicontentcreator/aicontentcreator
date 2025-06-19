@@ -10,7 +10,7 @@ from PySide6.QtCore import QThread, Signal
 import sys
 import subprocess
 from pathlib import Path
-#from interpreter.run_predefined_action import run
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -126,7 +126,7 @@ class SubprocessWorker(QThread):
 
     def run(self):
         try:
-            script_path = Path("predefined/template/run_action.sh").resolve()
+            script_path = Path("predefined_units/template/run_action.sh").resolve()
             working_dir = script_path.parent
             arg1="raw_test"
             arg2="."

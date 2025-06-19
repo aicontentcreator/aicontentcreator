@@ -12,6 +12,8 @@ from PySide6.QtGui import QIcon
 
 from .editor_pages import ImageEditorPage, VideoEditorPage, TextEditorPage
 
+#from processing.processing_chat_message import proce
+
 class ChatPage(QWidget):
     def __init__(self, navigate_to_editor):
         super().__init__()
