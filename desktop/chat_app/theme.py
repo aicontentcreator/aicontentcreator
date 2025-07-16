@@ -3,7 +3,7 @@ from PySide6.QtCore import Qt
 
 # === Semantic Brand Colors ===
 SPIRIT_COLOR = QColor(0, 127, 255)       # Blue – Trust, clarity, intelligence
-ENERGY_COLOR = QColor(242, 245, 16)      # Yellow – Attention, energy, innovation
+ENERGY_COLOR = QColor(255, 215, 0)      # Yellow – Attention, energy, innovation
 
 # === Neutral Background Colors ===
 DARK_BACKGROUND = QColor(130, 130, 130)

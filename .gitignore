@@ -73,45 +73,45 @@ desktop/chat_app/predefined_units/template/**/*.tmp
 .idea/
 
 # ─── OS-generated junk ───
-desktop/chat_app/predefined_units/video_editing/Thumbs.db
-desktop/chat_app/predefined_units/video_editing/ehthumbs.db
+desktop/chat_app/predefined_units/content_editing/Thumbs.db
+desktop/chat_app/predefined_units/content_editing/ehthumbs.db
 
 ########################
 # ─── Python cache and artifacts ───
-desktop/chat_app/predefined_units/video_editing/__pycache__/
-desktop/chat_app/predefined_units/video_editing/**/*.py[cod]
-desktop/chat_app/predefined_units/video_editing/**/*.so
-desktop/chat_app/predefined_units/video_editing/**/*.pyd
+desktop/chat_app/predefined_units/content_editing/__pycache__/
+desktop/chat_app/predefined_units/content_editing/**/*.py[cod]
+desktop/chat_app/predefined_units/content_editing/**/*.so
+desktop/chat_app/predefined_units/content_editing/**/*.pyd
 
-# ─── Virtual environments inside chat_app/predefined_units/video_editing ───
-desktop/chat_app/predefined_units/video_editing/.venv/
-desktop/chat_app/predefined_units/video_editing/venv/
-desktop/chat_app/predefined_units/video_editing/env/
-desktop/chat_app/predefined_units/video_editing/ENV/
-desktop/chat_app/predefined_units/video_editing/*.env
+# ─── Virtual environments inside chat_app/predefined_units/content_editing ───
+desktop/chat_app/predefined_units/content_editing/.venv/
+desktop/chat_app/predefined_units/content_editing/venv/
+desktop/chat_app/predefined_units/content_editing/env/
+desktop/chat_app/predefined_units/content_editing/ENV/
+desktop/chat_app/predefined_units/content_editing/*.env
 
 # ─── Build artifacts ───
-desktop/chat_app/predefined_units/video_editing/**/*.spec
-desktop/chat_app/predefined_units/video_editing/dist/
-desktop/chat_app/predefined_units/video_editing/build/
+desktop/chat_app/predefined_units/content_editing/**/*.spec
+desktop/chat_app/predefined_units/content_editing/dist/
+desktop/chat_app/predefined_units/content_editing/build/
 
 # ─── macOS metadata ───
-desktop/chat_app/predefined_units/video_editing/.DS_Store
+desktop/chat_app/predefined_units/content_editing/.DS_Store
 
 # ─── Chat data files ───
-desktop/chat_app/predefined_units/video_editing/Tmp
+desktop/chat_app/predefined_units/content_editing/Tmp
 
 # ─── Logs and temp files ───
-desktop/chat_app/predefined_units/video_editing/**/*.log
-desktop/chat_app/predefined_units/video_editing/**/*.tmp
+desktop/chat_app/predefined_units/content_editing/**/*.log
+desktop/chat_app/predefined_units/content_editing/**/*.tmp
 
 # ─── IDE/editor config ───
 .vscode/
 .idea/
 
 # ─── OS-generated junk ───
-desktop/chat_app/predefined_units/video_editing/Thumbs.db
-desktop/chat_app/predefined_units/video_editing/ehthumbs.db
+desktop/chat_app/predefined_units/content_editing/Thumbs.db
+desktop/chat_app/predefined_units/content_editing/ehthumbs.db
 
 ##########################
 #OLD 

@@ -5,8 +5,8 @@ from pathlib import Path
 # Define actions with their predefined_unit and executable path
 ACTIONS = {
     "trim": {
-        "predefined_unit": "video_editing",
-        "path": Path("predefined/video_editing/trim.sh").resolve()
+        "predefined_unit": "content_editing",
+        "path": Path("predefined/content_editing/trim.sh").resolve()
     },
     "convert_to_mp3": {
         "predefined_unit": "audio_editing",
