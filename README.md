@@ -1,4 +1,4 @@
-aicontentcreator - chat based app for creating ai content
+aicontentcreator - desktop chat based app for creating ai content
 ## ⚙️ Compiling from Source
 
 This application uses:
