@@ -5,20 +5,20 @@ from pathlib import Path
 # Define actions with their predefined_unit and executable path
 ACTIONS = {
     "trim": {
-        "predefined_unit": "content_editing",
-        "path": Path("predefined/content_editing/trim.sh").resolve()
+        "predefined_unit": "predefined_editing",
+        "path": Path("predefined/predefined_editing/trim.sh").resolve()
     },
     "convert_to_mp3": {
         "predefined_unit": "audio_editing",
-        "path": Path("predefined/audio_editing/convert_to_mp3.sh").resolve()
+        "path": Path("predefined/predefined_editing/convert_to_mp3.sh").resolve()
     },
     "resize_image": {
         "predefined_unit": "image_editing",
-        "path": Path("predefined/image_editing/resize_image.sh").resolve()
+        "path": Path("predefined/predefined_editing/resize_image.sh").resolve()
     },
     "compress_pdf": {
         "predefined_unit": "document_editing",
-        "path": Path("predefined/document_editing/compress_pdf.sh").resolve()
+        "path": Path("predefined/predefined_editing/compress_pdf.sh").resolve()
     },
 }
 
